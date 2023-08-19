@@ -8,11 +8,11 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
   },
-  extends: ['@nuxtjs/eslint-config-typescript', 'airbnb-base'],
+  extends: [
+    '@nuxtjs/eslint-config-typescript',
+    'airbnb-base',
+    'plugin:prettier/recommended',
+  ],
   plugins: [],
-  rules: {
-    'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  },
+  rules: {},
 };
