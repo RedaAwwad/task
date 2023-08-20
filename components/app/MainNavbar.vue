@@ -29,15 +29,16 @@
         <div class="hidden md:block">
           <ul class="flex items-center gap-x-4">
             <li>
-              <button>
+              <CBtn variant="link" class="px-2">
                 <Icon name="circum:search" size="1.5rem" />
-              </button>
+              </CBtn>
             </li>
             <li>
-              <button>
+              <CBtn variant="link" class="px-2">
                 <Icon name="mingcute:notification-fill" size="1.5rem" />
-              </button>
+              </CBtn>
             </li>
+            <li><CBtn>Sign In</CBtn></li>
           </ul>
         </div>
       </div>
