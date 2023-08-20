@@ -33,4 +33,8 @@ module.exports = {
       },
     ],
   },
+  globals: {
+    ref: 'readonly',
+    computed: 'readonly',
+  },
 };
