@@ -34,6 +34,7 @@ export default defineNuxtConfig({
         },
       ],
     },
+    pageTransition: { name: 'scale', mode: 'out-in' },
   },
   css: ['~/assets/scss/main.scss'],
   components: {
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
     'nuxt-icon',
     [
       '@nuxt/image',
