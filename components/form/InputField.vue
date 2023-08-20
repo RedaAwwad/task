@@ -39,10 +39,7 @@
 
 <template>
   <div class="w-full">
-    <label
-      :for="attributes.id || name"
-      class="flex align-center justify-between mb-2"
-    >
+    <label class="flex align-center justify-between mb-2">
       <span class="flex">
         <span>{{ label }}</span>
         <span v-if="required" class="text-xs text-red-600">*</span>
