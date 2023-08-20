@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { useLayoutStore } from '~/stores/layout';
+
+  const layoutStore = useLayoutStore();
+
+  const toggleNavbarMenu = () => {
+    layoutStore.updateNavMenuStatus(!layoutStore.isNavMenuOpen);
+  };
+</script>
 
 <template>
   <nav class="p-4 bg-transparent">
@@ -14,6 +22,7 @@
         <button
           type="button"
           class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden"
+          @click="toggleNavbarMenu"
         >
           <Icon name="clarity:menu-line" size="1.5rem" />
         </button>

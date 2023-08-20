@@ -20,5 +20,17 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-console': 'off',
     'vue/multi-word-component-names': 'off',
+    'no-restricted-imports': 'off',
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 };

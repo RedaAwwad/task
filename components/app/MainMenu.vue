@@ -1,8 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { useLayoutStore } from '@/stores/layout';
+
+  const layoutStore = useLayoutStore();
+</script>
 
 <template>
   <div
-    class="hidden fixed md:static left-0 top-16 bottom-0 w-full md:block md:w-auto"
+    :class="[layoutStore.isNavMenuOpen ? 'block' : 'hidden']"
+    class="md:block fixed md:static left-0 top-16 bottom-0 w-full md:w-auto"
   >
     <ul
       class="h-full flex flex-col md:flex-row align-center gap-4 text-base font-medium p-4 md:p-0 mt-4 md:mt-0 bg-primary md:bg-transparent"
