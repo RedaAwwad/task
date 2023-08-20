@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia';
   import { useLayoutStore } from '~/stores/layout';
 
   const layoutStore = useLayoutStore();
+  const { isNavMenuOpen } = storeToRefs(useLayoutStore());
 
   const toggleNavbarMenu = () => {
-    layoutStore.updateNavMenuStatus(!layoutStore.isNavMenuOpen);
+    layoutStore.updateNavMenuStatus(!isNavMenuOpen.value);
   };
 </script>
 

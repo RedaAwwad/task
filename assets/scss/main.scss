@@ -1,7 +1,2 @@
-body {
-  @apply bg-primary text-accent font-almarai;
-}
-
-a.router-link-exact-active {
-  @apply text-white;
-}
+@forward './globals';
+@forward './helpers';
