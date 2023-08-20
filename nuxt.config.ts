@@ -37,7 +37,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/scss/main.scss'],
   components: {
-    dirs: ['~/components/app', '~/components/buttons'],
+    dirs: ['~/components/app', '~/components/buttons', '~/components/form'],
   },
   modules: [
     '@nuxtjs/tailwindcss',

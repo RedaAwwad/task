@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
-    "pinia": "^2.1.6"
+    "pinia": "^2.1.6",
+    "vee-validate": "^4.11.1",
+    "yup": "^1.2.0"
   }
 }
