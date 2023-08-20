@@ -38,7 +38,7 @@
                 <Icon name="mingcute:notification-fill" size="1.5rem" />
               </CBtn>
             </li>
-            <li><CBtn>Sign In</CBtn></li>
+            <li><CBtnLink to="/auth/login">Sign In</CBtnLink></li>
           </ul>
         </div>
       </div>
