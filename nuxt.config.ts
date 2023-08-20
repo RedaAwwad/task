@@ -7,6 +7,17 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: 'Task App',
+      meta: [
+        {
+          name: 'description',
+          content: 'app description goes here',
+        },
+        {
+          name: 'keyword',
+          content: 'meta, keywords, goes here',
+        },
+      ],
       link: [
         {
           rel: 'preconnect',
@@ -25,5 +36,37 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/tailwindcss'],
+  components: {
+    dirs: ['~/components/app'],
+  },
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
+    'nuxt-icon',
+    [
+      '@nuxt/image',
+      {
+        presets: {
+          cover: {
+            modifiers: {
+              fit: 'cover',
+              format: 'jpg',
+              width: 300,
+              height: 300,
+            },
+          },
+        },
+        screens: {
+          xs: 320,
+          sm: 640,
+          md: 768,
+          lg: 1024,
+          xl: 1280,
+          xxl: 1536,
+          '2xl': 1536,
+        },
+      },
+    ],
+  ],
+  plugins: [],
 });
