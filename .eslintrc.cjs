@@ -4,6 +4,19 @@ module.exports = {
     browser: true,
     node: true,
   },
+  // globals: {
+  //   defineNuxtConfig: 'readonly',
+  //   defineNuxtPlugin: 'readonly',
+  //   useRuntimeConfig: 'readonly',
+  //   useNuxtApp: 'readonly',
+  //   clearError: 'readonly',
+  //   createError: 'readonly',
+  //   onMounted: 'readonly',
+  //   ref: 'readonly',
+  //   computed: 'readonly',
+  //   useBreakpoints: 'readonly',
+  //   useCookie: 'readonly',
+  // },
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
@@ -22,6 +35,9 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'no-restricted-imports': 'off',
     'import/prefer-default-export': 'off',
+    'func-names': 'off',
+    'no-param-reassign': 'off',
+    'no-undef': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -32,10 +48,5 @@ module.exports = {
         tsx: 'never',
       },
     ],
-  },
-  globals: {
-    ref: 'readonly',
-    computed: 'readonly',
-    useBreakpoints: 'readonly',
   },
 };
