@@ -1,5 +1,13 @@
 <script setup lang="ts">
   import * as Yup from 'yup';
+  import { useAuthStore } from '@/stores/auth';
+
+  const authStore = useAuthStore();
+  const submitting = ref<boolean>(false);
+
+  definePageMeta({
+    middleware: 'guest',
+  });
 
   interface ILoginForm {
     email: string;
@@ -15,7 +23,14 @@
     password: Yup.string().required('Enter your Password'),
   });
 
-  const submitForm = () => {};
+  const submitForm = async () => {
+    try {
+      submitting.value = true;
+      await authStore.login(form.value);
+    } finally {
+      submitting.value = false;
+    }
+  };
 </script>
 
 <template>
@@ -47,7 +62,9 @@
           </div>
 
           <template #submit>
-            <CBtn type="submit" class="w-full py-3">Log In</CBtn>
+            <CBtn type="submit" :loading="submitting" class="w-full py-3"
+              >Log In</CBtn
+            >
           </template>
         </CForm>
       </div>

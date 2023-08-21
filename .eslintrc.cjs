@@ -38,6 +38,7 @@ module.exports = {
     'func-names': 'off',
     'no-param-reassign': 'off',
     'no-undef': 'off',
+    'consistent-return': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

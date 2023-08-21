@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  // const http = useNuxtApp().$http;
+  // const useAuthStore = useAuthStore();
+
+  // onMounted(async () => {
+  //   console.log(useAuthStore);
+  //   console.log(useAuthStore.getToken());
+  // });
+</script>
 
 <template>
   <div class="container mx-auto">
