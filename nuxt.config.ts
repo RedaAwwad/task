@@ -1,9 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-// eslint-disable-next-line no-undef
 export default defineNuxtConfig({
   pages: true,
   devServer: {
-    port: 3333,
+    port: 8080,
+  },
+  runtimeConfig: {
+    public: {
+      ApiBaseUrl: process.env.API_Base_URL,
+    },
   },
   app: {
     head: {
@@ -38,37 +42,40 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/scss/main.scss'],
   components: {
-    dirs: ['~/components/app', '~/components/buttons', '~/components/form'],
+    dirs: [
+      '~/components/app',
+      '~/components/buttons',
+      '~/components/form',
+      '~/components/ui',
+    ],
   },
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-icon',
-    [
-      '@nuxt/image',
-      {
-        presets: {
-          cover: {
-            modifiers: {
-              fit: 'cover',
-              format: 'jpg',
-              width: 300,
-              height: 300,
-            },
-          },
-        },
-        screens: {
-          xs: 320,
-          sm: 640,
-          md: 768,
-          lg: 1024,
-          xl: 1280,
-          xxl: 1536,
-          '2xl': 1536,
+    '@nuxt/image',
+  ],
+  image: {
+    presets: {
+      cover: {
+        modifiers: {
+          fit: 'cover',
+          format: 'jpg',
+          width: 300,
+          height: 300,
         },
       },
-    ],
-  ],
+    },
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      '2xl': 1536,
+    },
+  },
   plugins: [],
 });

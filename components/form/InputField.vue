@@ -39,10 +39,7 @@
 
 <template>
   <div class="w-full">
-    <label
-      :for="attributes.id || name"
-      class="flex align-center justify-between mb-2"
-    >
+    <label class="flex align-center justify-between mb-2">
       <span class="flex">
         <span>{{ label }}</span>
         <span v-if="required" class="text-xs text-red-600">*</span>
@@ -68,7 +65,7 @@
       :placeholder="placeholder"
       v-bind="attributes"
       class="w-full block p-2.5 bg-[#13294b] border border-[#7286a8] focus:border-gray-600 text-white text-sm rounded-lg"
-      @input="emit('update:modelValue')"
+      @input="emit('update:modelValue', $event.target.value)"
     />
 
     <ErrorMessage :name="name" class="text-xs text-red-400" />

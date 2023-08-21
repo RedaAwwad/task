@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import { useLayoutStore } from '~/stores/layout';
+  import { useLayoutStore } from '@/stores/layout';
+  import { useAuthStore } from '@/stores/auth';
 
+  const { authenticated, user } = storeToRefs(useAuthStore());
   const layoutStore = useLayoutStore();
   const { isNavMenuOpen } = storeToRefs(useLayoutStore());
 
@@ -40,7 +42,12 @@
                 <Icon name="mingcute:notification-fill" size="1.5rem" />
               </CBtn>
             </li>
-            <li><CBtn>Sign In</CBtn></li>
+            <li v-if="!authenticated">
+              <CBtnLink to="/auth/login">Sign In</CBtnLink>
+            </li>
+            <li v-else class="flex">
+              <UserDropdownMenu :user="user" />
+            </li>
           </ul>
         </div>
       </div>
