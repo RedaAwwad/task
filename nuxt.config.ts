@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   pages: true,
   devServer: {
-    port: 8080,
+    port: 5000,
   },
   runtimeConfig: {
     public: {
@@ -55,6 +55,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-icon',
     '@nuxt/image',
+    'nuxt-swiper',
   ],
   image: {
     presets: {

@@ -21,7 +21,7 @@
             <NuxtImg src="/imgs/logo.png" height="45" />
           </NuxtLink>
 
-          <MainMenu />
+          <MainMenu :user="user" />
         </div>
         <button
           type="button"
@@ -31,16 +31,16 @@
           <Icon name="clarity:menu-line" size="1.5rem" />
         </button>
         <div class="hidden md:block">
-          <ul class="flex items-center gap-x-4">
+          <ul class="flex items-center gap-x-5">
             <li>
-              <CBtn variant="link" class="px-2">
+              <button class="p-1">
                 <Icon name="circum:search" size="1.5rem" />
-              </CBtn>
+              </button>
             </li>
             <li>
-              <CBtn variant="link" class="px-2">
+              <button class="p-1">
                 <Icon name="mingcute:notification-fill" size="1.5rem" />
-              </CBtn>
+              </button>
             </li>
             <li v-if="!authenticated">
               <CBtnLink to="/auth/login">Sign In</CBtnLink>
