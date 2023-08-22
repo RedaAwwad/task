@@ -3,6 +3,23 @@
   import { storeToRefs } from 'pinia';
   import { useLayoutStore } from '@/stores/layout';
 
+  interface IUser {
+    unique_id?: string;
+    firstName?: string;
+    lastName?: string;
+    name?: string;
+    email?: string;
+    avatar?: string;
+  }
+
+  interface IProps {
+    user: IUser | null;
+  }
+
+  withDefaults(defineProps<IProps>(), {
+    user: null,
+  });
+
   const breakpoints = useBreakpoints(breakpointsTailwind);
   const isSmallScreen = breakpoints.smallerOrEqual('md');
   const { isNavMenuOpen } = storeToRefs(useLayoutStore());
@@ -17,6 +34,21 @@
       <ul
         class="h-full flex flex-col md:flex-row align-center gap-4 text-base font-medium p-4 md:p-0 mt-4 md:mt-0 bg-primary md:bg-transparent"
       >
+        <li v-if="user" class="mb-4 md:hidden">
+          <ul>
+            <li class="">{{ user.name }}</li>
+            <li>{{ user.email }}</li>
+            <NuxtLink
+              to="/favorites"
+              class="inline-block py-2 hover:text-white"
+            >
+              Favorites
+            </NuxtLink>
+            <li class="mt-3">
+              <hr />
+            </li>
+          </ul>
+        </li>
         <li>
           <NuxtLink to="/" class="hover:text-white"> Home </NuxtLink>
         </li>

@@ -29,7 +29,7 @@ yarn install
 
 ## Development Server
 
-Start the development server on `http://localhost:3333`
+Start the development server on `http://localhost:5000`
 
 ```bash
 yarn dev

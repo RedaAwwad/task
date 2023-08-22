@@ -14,8 +14,6 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     checkAuthenticatedUser() {
-      console.log('checkAuthenticatedUser');
-
       const token = useCookie<string | null>('token');
       const user = useCookie<IUser | null>('user');
       const authenticated = !!token.value;
@@ -28,7 +26,7 @@ export const useAuthStore = defineStore('auth', {
     async login(userCredentials: IUserCredentials) {
       const http = useNuxtApp().$http;
       const res = await http.post<HttpResponse<IAuthData>>(
-        '/login',
+        '/login/signin',
         userCredentials,
       );
 
