@@ -1,7 +1,10 @@
 {
   "editor.formatOnSave": true,
-  "vetur.validation.template": false,
+  "vetur.validation.template": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

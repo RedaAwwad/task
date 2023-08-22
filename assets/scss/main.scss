@@ -1,3 +1,2 @@
-body {
-  @apply bg-primary text-accent font-almarai;
-}
+@forward './globals';
+@forward './helpers';

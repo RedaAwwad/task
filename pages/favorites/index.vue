@@ -1,28 +1,15 @@
-<script setup lang="ts">
-  import { storeToRefs } from 'pinia';
-  import { useAuthStore } from '@/stores/auth';
-
-  useHead({
-    title: 'Home Page | Exclusive Content',
-    meta: [
-      {
-        name: 'description',
-        content: 'home page description goes here',
-      },
-      {
-        name: 'keyword',
-        content: 'home, meta, keywords, goes here',
-      },
-    ],
+<script setup>
+  definePageMeta({
+    middleware: 'auth',
   });
 
-  const { authenticated } = storeToRefs(useAuthStore());
   const http = useNuxtApp().$http;
 
-  const pageTitle = ref<string>('');
   const projects = ref([]);
-  const isLoading = ref<boolean>(true);
-  const isError = ref<boolean>(false);
+  const isLoading = ref(true);
+  const isError = ref(false);
+  const currentPage = ref(1);
+  const lastPage = ref(null);
 
   const sliderBreakpoints = {
     320: {
@@ -49,15 +36,14 @@
     isLoading.value = true;
 
     try {
-      const res = await http.get('/home');
-      const exclusiveContent = res?.data?.blocks.find(
-        (block: Record<string, unknown>) =>
-          block.block_type === 'vertical_slider',
+      const res = await http.get(
+        `/member/project?user_list=1&page=${currentPage}`,
       );
-
+      const exclusiveContent = res?.data?.blocks[0];
+      console.log(exclusiveContent);
       if (exclusiveContent) {
-        pageTitle.value = exclusiveContent?.title || '';
         projects.value = exclusiveContent?.projects || [];
+        lastPage.value = exclusiveContent?.last_page;
       }
     } catch (error) {
       console.error(error);
@@ -71,15 +57,11 @@
     getHomeContent();
   });
 
-  const updateFavoriteStatus = async (id: number, added: boolean) => {
-    try {
-      await http.get(
-        `/member/favorites/${added ? 'remove' : 'add'}?program=${id}`,
-      );
-      getHomeContent();
-    } catch (error) {
-      console.error(error);
-    }
+  const getNextPage = () => {
+    if (currentPage.value <= lastPage.value) return;
+
+    currentPage.value += 1;
+    getHomeContent();
   };
 </script>
 
@@ -122,7 +104,7 @@
     <div v-else>
       <h1 v-if="isError" class="p-4 text-secondary">Something went wrong!</h1>
       <div v-else>
-        <h1 class="py-4 text-2xl">{{ pageTitle }}</h1>
+        <h1 class="py-4 text-2xl">My Favorites List</h1>
         <div class="h-[1px] max-w-xs mb-4 bg-gray-600"></div>
         <div class="pb-10">
           <!-- lazy -->
@@ -146,14 +128,6 @@
               <div
                 class="relative w-full rounded-lg overflow-hidden transition-all duration-500 hover:scale-105"
               >
-                <button
-                  v-if="authenticated"
-                  :class="[project.favorite ? 'text-secondary' : 'text-white']"
-                  class="absolute top-2 left-2 z-50 inline-block hover:text-secondary"
-                  @click="updateFavoriteStatus(project.id, project.favorite)"
-                >
-                  <Icon name="mdi:heart" size="2rem" />
-                </button>
                 <a href="#" class="block h-[500px] w-full">
                   <span
                     class="absolute top-0 right-0 z-50 inline-block py-2 px-3 bg-black text-white text-xs"
@@ -180,6 +154,9 @@
               </div>
             </SwiperSlide>
           </Swiper>
+          <div class="py-2">
+            <CBtn @click="getNextPage">Next Page</CBtn>
+          </div>
         </div>
       </div>
     </div>

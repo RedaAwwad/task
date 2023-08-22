@@ -1,0 +1,11 @@
+body {
+  @apply bg-primary text-accent font-almarai;
+}
+
+a.router-link-exact-active:not(.bg-secondary) {
+  @apply text-secondary;
+}
+
+a.router-link-exact-active.bg-secondary {
+  @apply text-white;
+}
