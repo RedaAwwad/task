@@ -1,51 +1,78 @@
-<script setup>
+<script setup lang="ts">
+  import { SwiperOptions } from 'swiper/types';
+
   definePageMeta({
     middleware: 'auth',
   });
 
   const http = useNuxtApp().$http;
 
-  const projects = ref([]);
-  const isLoading = ref(true);
-  const isError = ref(false);
-  const currentPage = ref(1);
-  const lastPage = ref(null);
+  interface IProject {
+    id: number;
+    title: string;
+    image: string;
+    type: string;
+    favorite: boolean;
+  }
 
-  const sliderBreakpoints = {
-    320: {
-      slidesPerView: 2,
+  interface IExclusiveContentBlock {
+    projects: IProject[];
+    paging: {
+      page: number;
+      last_page: number;
+      count_item: number;
+    };
+  }
+
+  const projects = ref<IProject[]>([]);
+  const isLoading = ref<boolean>(true);
+  const isError = ref<boolean>(false);
+  const currentPage = ref<number>(1);
+  const lastPage = ref<number>(0);
+
+  const swiperConfig: SwiperOptions = {
+    slidesPerView: 4,
+    loop: true,
+    spaceBetween: 10,
+    parallax: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: true,
     },
-    480: {
-      slidesPerView: 2,
-    },
-    640: {
-      slidesPerView: 2,
-    },
-    767: {
-      slidesPerView: 3,
-    },
-    992: {
-      slidesPerView: 4,
-    },
-    1200: {
-      slidesPerView: 5,
+    modules: [SwiperAutoplay, SwiperEffectCreative],
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      640: {
+        slidesPerView: 2,
+      },
+      767: {
+        slidesPerView: 3,
+      },
+      992: {
+        slidesPerView: 4,
+      },
+      1200: {
+        slidesPerView: 5,
+      },
     },
   };
 
   const getFavorites = async () => {
     isLoading.value = true;
 
-    const token = useCookie('token');
-    http.defaults.headers.common.Authorization = token.value;
-
     try {
       const res = await http.get(
         `/member/project?user_list=1&page=${currentPage.value}`,
       );
-      const exclusiveContent = res?.data?.blocks[0];
+      const exclusiveContent = res?.data?.blocks[0] as IExclusiveContentBlock;
       if (exclusiveContent) {
         projects.value = exclusiveContent?.projects || [];
-        lastPage.value = exclusiveContent?.last_page;
+        lastPage.value = exclusiveContent?.paging?.last_page;
       }
     } catch (error) {
       console.error(error);
@@ -68,7 +95,7 @@
 </script>
 
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto px-4">
     <div v-if="isLoading" class="py-6">
       <div class="mb-14">
         <div class="max-w-sm animate-pulse">
@@ -103,24 +130,25 @@
         </div>
       </div>
     </div>
+    <div v-else-if="!isLoading && !projects.length">
+      <h1 class="py-4 text-2xl">My Favorites List</h1>
+      <div class="h-[1px] max-w-xs mb-4 bg-gray-600"></div>
+      <h2 class="py-4 text-secondary">No Results Found</h2>
+    </div>
     <div v-else>
       <h1 v-if="isError" class="p-4 text-secondary">Something went wrong!</h1>
       <div v-else>
         <h1 class="py-4 text-2xl">My Favorites List</h1>
         <div class="h-[1px] max-w-xs mb-4 bg-gray-600"></div>
         <div class="pb-10">
-          <!-- lazy -->
           <Swiper
-            :modules="[SwiperAutoplay, SwiperEffectCreative]"
-            :slides-per-view="1"
-            loop
-            parallax
-            :space-between="10"
-            :breakpoints="sliderBreakpoints"
-            :autoplay="{
-              delay: 4000,
-              disableOnInteraction: true,
-            }"
+            :modules="swiperConfig.modules"
+            :slides-per-view="swiperConfig.slidesPerView"
+            :loop="swiperConfig.loop"
+            :parallax="swiperConfig.parallax"
+            :space-between="swiperConfig.spaceBetween"
+            :breakpoints="swiperConfig.breakpoints"
+            :autoplay="swiperConfig.autoplay"
           >
             <SwiperSlide
               v-for="project in projects"
@@ -156,7 +184,7 @@
               </div>
             </SwiperSlide>
           </Swiper>
-          <div class="py-2">
+          <div v-if="lastPage < currentPage" class="py-2">
             <CBtn @click="getNextPage">Next Page</CBtn>
           </div>
         </div>

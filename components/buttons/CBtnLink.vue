@@ -1,11 +1,6 @@
 <script setup lang="ts">
   type Variants = 'primary' | 'secondary' | 'link';
   type Sizes = 'base' | 'sm' | 'md' | 'lg';
-  interface IRouterOptions {
-    path: string;
-    params?: Record<string, unknown>;
-    query?: Record<string, unknown>;
-  }
 
   interface BtnProps {
     variant?: Variants;
@@ -14,7 +9,7 @@
     outline?: boolean;
     loading?: boolean;
     noFocus?: boolean;
-    to: string | IRouterOptions;
+    to: string;
   }
 
   const props = withDefaults(defineProps<BtnProps>(), {

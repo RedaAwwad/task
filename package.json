@@ -28,6 +28,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "nuxt": "^3.6.5",
     "nuxt-icon": "^0.5.0",
+    "nuxt-typed-router": "^3.3.1",
     "prettier": "^3.0.2",
     "sass": "^1.66.0",
     "sass-loader": "^13.3.2",
@@ -40,6 +41,7 @@
     "axios": "^1.4.0",
     "nuxt-swiper": "^1.2.0",
     "pinia": "^2.1.6",
+    "swiper": "^10.2.0",
     "vee-validate": "^4.11.1",
     "yup": "^1.2.0"
   }

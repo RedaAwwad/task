@@ -3,15 +3,13 @@ interface HttpResponse<T> {
 }
 
 interface IUser {
-  unique_id?: string;
-  firstName?: string;
-  lastName?: string;
-  name?: string;
-  email?: string;
-  avatar?: string;
+  unique_id: string;
+  firstName: string;
+  lastName: string;
+  name: string;
+  email: string;
+  avatar: string;
+  profile_id: string;
 }
 
-interface IUserCredentials {
-  email: string;
-  password: string;
-}
+type IUserCredentials = Pick<IUser, "email" | "password">;
