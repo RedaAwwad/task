@@ -26,7 +26,6 @@ export const useAuthStore = defineStore('auth', {
     async login(userCredentials: IUserCredentials) {
       const http = useNuxtApp().$http;
       const token = useCookie('token');
-      http.defaults.headers.common.Authorization = token.value;
 
       const payload = {
         ...userCredentials,
@@ -44,7 +43,11 @@ export const useAuthStore = defineStore('auth', {
       const user = useCookie<IUser | null>('user');
 
       const tokenData = responseData?.auth_token;
-      const userData = responseData;
+      const userData = {
+        ...responseData,
+        /* @ts-ignore */
+        profile_id: res.data?.profiles[0]?.id,
+      };
 
       token.value = tokenData;
       user.value = userData;
@@ -57,11 +60,9 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       const http = useNuxtApp().$http;
       const token = useCookie('token');
-      http.defaults.headers.common.Authorization = token.value;
+      const user = useCookie<IUser | null>('user');
 
       await http.post('/logout');
-
-      const user = useCookie<IUser | null>('user');
 
       token.value = null;
       user.value = null;

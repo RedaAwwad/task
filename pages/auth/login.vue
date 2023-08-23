@@ -30,6 +30,12 @@
       submitting.value = true;
       await authStore.login(form.value);
     } catch (e) {
+      console.log(e);
+      /* @ts-ignore */
+      if (e?.status === 404) {
+        error.value = 'Credentials are incorrect!';
+        return;
+      }
       /* @ts-ignore */
       if (e?.message) {
         /* @ts-ignore */

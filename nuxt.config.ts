@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   pages: true,
   devServer: {
-    port: 5000,
+    port: 3000,
   },
   runtimeConfig: {
     public: {
@@ -51,6 +51,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/tailwindcss',
+    'nuxt-typed-router',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-icon',

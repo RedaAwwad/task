@@ -3,15 +3,6 @@
   import { storeToRefs } from 'pinia';
   import { useLayoutStore } from '@/stores/layout';
 
-  interface IUser {
-    unique_id?: string;
-    firstName?: string;
-    lastName?: string;
-    name?: string;
-    email?: string;
-    avatar?: string;
-  }
-
   interface IProps {
     user: IUser | null;
   }
@@ -48,6 +39,12 @@
               <hr />
             </li>
           </ul>
+        </li>
+        <li v-else class="md:hidden">
+          <CBtnLink to="/auth/login">Sign In</CBtnLink>
+          <div class="my-4">
+            <hr />
+          </div>
         </li>
         <li>
           <NuxtLink to="/" class="hover:text-white"> Home </NuxtLink>

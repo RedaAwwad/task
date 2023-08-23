@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
+  import { SwiperOptions } from 'swiper/types';
   import { useAuthStore } from '@/stores/auth';
 
   useHead({
@@ -19,29 +20,54 @@
   const { authenticated } = storeToRefs(useAuthStore());
   const http = useNuxtApp().$http;
 
+  interface IProject {
+    id: number;
+    title: string;
+    image: string;
+    type: string;
+    favorite: boolean;
+  }
+
+  interface IExclusiveContentBlock {
+    title: string;
+    projects: IProject[];
+    last_page: number;
+  }
+
   const pageTitle = ref<string>('');
-  const projects = ref([]);
+  const projects = ref<IProject[]>();
   const isLoading = ref<boolean>(true);
   const isError = ref<boolean>(false);
 
-  const sliderBreakpoints = {
-    320: {
-      slidesPerView: 2,
+  const swiperConfig: SwiperOptions = {
+    slidesPerView: 4,
+    loop: true,
+    spaceBetween: 10,
+    parallax: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: true,
     },
-    480: {
-      slidesPerView: 2,
-    },
-    640: {
-      slidesPerView: 2,
-    },
-    767: {
-      slidesPerView: 3,
-    },
-    992: {
-      slidesPerView: 4,
-    },
-    1200: {
-      slidesPerView: 5,
+    modules: [SwiperAutoplay, SwiperEffectCreative],
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+      },
+      480: {
+        slidesPerView: 2,
+      },
+      640: {
+        slidesPerView: 2,
+      },
+      767: {
+        slidesPerView: 3,
+      },
+      992: {
+        slidesPerView: 4,
+      },
+      1200: {
+        slidesPerView: 5,
+      },
     },
   };
 
@@ -50,7 +76,7 @@
 
     try {
       const res = await http.get('/home');
-      const exclusiveContent = res?.data?.blocks.find(
+      const exclusiveContent: IExclusiveContentBlock = res?.data?.blocks.find(
         (block: Record<string, unknown>) =>
           block.block_type === 'vertical_slider',
       );
@@ -84,7 +110,7 @@
 </script>
 
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto px-4">
     <div v-if="isLoading" class="py-6">
       <div class="mb-14">
         <div class="max-w-sm animate-pulse">
@@ -127,16 +153,13 @@
         <div class="pb-10">
           <!-- lazy -->
           <Swiper
-            :modules="[SwiperAutoplay, SwiperEffectCreative]"
-            :slides-per-view="1"
-            loop
-            parallax
-            :space-between="10"
-            :breakpoints="sliderBreakpoints"
-            :autoplay="{
-              delay: 4000,
-              disableOnInteraction: true,
-            }"
+            :modules="swiperConfig.modules"
+            :slides-per-view="swiperConfig.slidesPerView"
+            :loop="swiperConfig.loop"
+            :parallax="swiperConfig.parallax"
+            :space-between="swiperConfig.spaceBetween"
+            :breakpoints="swiperConfig.breakpoints"
+            :autoplay="swiperConfig.autoplay"
           >
             <SwiperSlide
               v-for="project in projects"

@@ -8,15 +8,6 @@
   const isDropdownOpen = ref<boolean>(false);
   const submitting = ref<boolean>(false);
 
-  interface IUser {
-    unique_id?: string;
-    firstName?: string;
-    lastName?: string;
-    name?: string;
-    email?: string;
-    avatar?: string;
-  }
-
   interface IProps {
     user: IUser | null;
   }

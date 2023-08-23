@@ -9,12 +9,13 @@ export default defineNuxtPlugin(() => {
 
   http.interceptors.request.use(
     (axiosConfig) => {
-      /**
-       * NOTE: Global Token Config
-       * We can use the following global config for axios to make the token set globbally, but it results CORS error 'Request header field authorization is not allowed by Access-Control-Allow-Headers'
-       */
-      // const token = useCookie('token');
-      // axiosConfig.headers.Authorization = token.value;
+      const token = useCookie('token');
+      const user = useCookie<IUser>('user');
+
+      if (token.value) {
+        axiosConfig.headers.Authorization = token.value;
+        axiosConfig.headers.Profile = user.value?.profile_id;
+      }
 
       return axiosConfig;
     },
