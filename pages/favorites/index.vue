@@ -32,15 +32,17 @@
     },
   };
 
-  const getHomeContent = async () => {
+  const getFavorites = async () => {
     isLoading.value = true;
+
+    const token = useCookie('token');
+    http.defaults.headers.common.Authorization = token.value;
 
     try {
       const res = await http.get(
-        `/member/project?user_list=1&page=${currentPage}`,
+        `/member/project?user_list=1&page=${currentPage.value}`,
       );
       const exclusiveContent = res?.data?.blocks[0];
-      console.log(exclusiveContent);
       if (exclusiveContent) {
         projects.value = exclusiveContent?.projects || [];
         lastPage.value = exclusiveContent?.last_page;
@@ -54,14 +56,14 @@
   };
 
   onBeforeMount(() => {
-    getHomeContent();
+    getFavorites();
   });
 
   const getNextPage = () => {
     if (currentPage.value <= lastPage.value) return;
 
     currentPage.value += 1;
-    getHomeContent();
+    getFavorites();
   };
 </script>
 

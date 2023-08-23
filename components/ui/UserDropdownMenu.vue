@@ -1,8 +1,12 @@
 <script setup lang="ts">
   import { onClickOutside } from '@vueuse/core';
+  import { useAuthStore } from '@/stores/auth';
+
+  const authStore = useAuthStore();
 
   const target = ref<HTMLElement | null>(null);
   const isDropdownOpen = ref<boolean>(false);
+  const submitting = ref<boolean>(false);
 
   interface IUser {
     unique_id?: string;
@@ -28,6 +32,15 @@
   onClickOutside(target, () => {
     isDropdownOpen.value = false;
   });
+
+  const logoutUser = async () => {
+    try {
+      submitting.value = true;
+      await authStore.logout();
+    } finally {
+      submitting.value = false;
+    }
+  };
 </script>
 
 <template>
@@ -65,11 +78,13 @@
           </li>
 
           <li>
-            <a
-              href="#"
-              class="block px-4 py-2 hover:bg-gray-100 hover:text-secondary dark:hover:text-white"
-              >Sign out</a
+            <button
+              type="button"
+              class="block w-full text-start px-4 py-2 hover:bg-gray-100 hover:text-secondary dark:hover:text-white"
+              @click="logoutUser"
             >
+              Sign out
+            </button>
           </li>
         </ul>
       </div>

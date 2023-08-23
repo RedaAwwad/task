@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     checkAuthenticatedUser() {
-      const token = useCookie<string | null>('token');
+      const token = useCookie('token');
       const user = useCookie<IUser | null>('user');
       const authenticated = !!token.value;
 
@@ -25,14 +25,23 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(userCredentials: IUserCredentials) {
       const http = useNuxtApp().$http;
+      const token = useCookie('token');
+      http.defaults.headers.common.Authorization = token.value;
+
+      const payload = {
+        ...userCredentials,
+        uniq_device_id: 'nqo7vl8bb6qrx2x3pfws7nmq7llfke5wj',
+        device_type: 'browser',
+        device_os: 'Windows 10',
+      };
+
       const res = await http.post<HttpResponse<IAuthData>>(
         '/login/signin',
-        userCredentials,
+        payload,
       );
 
       const responseData = res.data?.data;
-      const token = useCookie('token');
-      const user = useCookie<IUser>('user');
+      const user = useCookie<IUser | null>('user');
 
       const tokenData = responseData?.auth_token;
       const userData = responseData;
@@ -44,6 +53,23 @@ export const useAuthStore = defineStore('auth', {
       this.authUser = userData;
 
       return navigateTo('/dashboard');
+    },
+    async logout() {
+      const http = useNuxtApp().$http;
+      const token = useCookie('token');
+      http.defaults.headers.common.Authorization = token.value;
+
+      await http.post('/logout');
+
+      const user = useCookie<IUser | null>('user');
+
+      token.value = null;
+      user.value = null;
+
+      this.authenticated = false;
+      this.authUser = null;
+
+      return navigateTo('/auth/login');
     },
   },
 });
