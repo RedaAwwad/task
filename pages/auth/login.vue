@@ -4,6 +4,7 @@
 
   const authStore = useAuthStore();
   const submitting = ref<boolean>(false);
+  const error = ref<string | null>(null);
 
   definePageMeta({
     middleware: 'guest',
@@ -25,8 +26,15 @@
 
   const submitForm = async () => {
     try {
+      error.value = null;
       submitting.value = true;
       await authStore.login(form.value);
+    } catch (e) {
+      /* @ts-ignore */
+      if (e?.message) {
+        /* @ts-ignore */
+        error.value = e.message as string;
+      }
     } finally {
       submitting.value = false;
     }
@@ -36,9 +44,12 @@
 <template>
   <div class="container mx-auto px-4 py-6 sm:py-10">
     <div class="w-[500px] max-w-full mx-auto">
-      <h1 class="mb-4 text-xl font-semibold text-white">Log In</h1>
-      <hr />
-      <div class="py-16">
+      <div class="mb-4 flex items-center justify-between">
+        <h1 class="text-xl font-semibold text-white">Log In</h1>
+        <span class="py-1 text-red-600">{{ error }}</span>
+      </div>
+      <hr class="mb-4" />
+      <div class="py-10">
         <CForm :validation-schema="formValidations" @submit="submitForm">
           <InputField
             v-model="form.email"
